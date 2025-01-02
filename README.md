@@ -1,2 +1,3 @@
-# ansible_training
-Training on Ansible
+# Training on Ansible
+
+Base on Getting Started with Ansible: Automation Made Easy
