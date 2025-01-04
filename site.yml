@@ -24,10 +24,10 @@
    - base
 
 
-- hosts: web_servers
+- hosts: apache
   become: true
   roles:
-    - web_servers
+    - geerlingguy.apache
 
 - hosts: db_servers
   become: true
