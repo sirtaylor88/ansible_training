@@ -1,0 +1,20 @@
+- name: create user
+  tags: always
+  ansible.builtin.user:
+    name: johndoe
+    groups: root
+
+- name: add sudoers file for johndoe
+  tags: always
+  ansible.builtin.copy:
+    src: sudoer_johndoe
+    dest: /etc/sudoers.d/johndoe
+    owner: root
+    group: root
+    mode: 0440
+
+- name: add ssh key for johndoe user
+  tags: always
+  ansible.builtin.authorized_key:
+    user: johndoe
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJvUuc6B+Ew/Fzswrn5PO12bcWBC5x9d6TQCbsUCi7f sirtaylor88@ubuntu-ws"
