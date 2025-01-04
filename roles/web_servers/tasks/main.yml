@@ -13,19 +13,11 @@
     use_backend: dnf
   when: ansible_distribution == "Fedora"
 
-- name: launch apache on Ubuntu
-  tags: apache,ubuntu
+- name: launch Apache
+  tags: apache
   ansible.builtin.service:
-    name: apache2
+    name: "{{ apache_service }}"
     state: started
-  when: ansible_distribution == "Ubuntu"
-
-- name: launch apache on Fedora
-  tags: apache,fedora
-  ansible.builtin.service:
-    name: httpd
-    state: started
-  when: ansible_distribution == "Fedora"
 
 - name: change email address for admin
   tags: apache,fedora
@@ -34,17 +26,10 @@
     regexp: '^ServerAdmin'
     line: ServerAdmin nhattai@nguyen.net
   when: ansible_distribution == "Fedora"
-  register: httpd
-
-- name: restart httpd (Fedora)
-  tags: apache,fedora
-  ansible.builtin.service:
-    name: httpd
-    state: restarted
-  when: httpd.changed
+  notify: restart_apache
 
 - name: copy html file for site
-  tags: apache,ubuntu
+  tags: apache
   ansible.builtin.copy:
     src: default_site.html
     dest: /var/www/html/index.html
